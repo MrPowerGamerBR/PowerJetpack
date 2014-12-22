@@ -29,6 +29,14 @@ public class JetpackListener extends PowerUtils implements Listener {
 						}
 						else {
 							if (p.getInventory().contains(PowerUtils.fuel)) {
+								for (String m : PowerUtils.mundosBlock) {
+									if (p.getWorld().getName().equalsIgnoreCase(m)) {
+										p.sendMessage(PowerUtils.naoPodeMundo);
+										plist.remove(p);
+										p.setAllowFlight(false);
+										return;
+									}
+								}
 								p.sendMessage(PowerUtils.woosh);
 								PowerUtils.removeInventoryItems(p.getInventory(), PowerUtils.fuel, 1);
 							}
@@ -60,6 +68,12 @@ public class JetpackListener extends PowerUtils implements Listener {
 					if (e.getPlayer().isOnGround()) {
 						if (!(e.getPlayer().getAllowFlight())) {
 							if (e.getPlayer().getInventory().contains(PowerUtils.fuel)) {
+								for (String m : PowerUtils.mundosBlock) {
+									if (e.getPlayer().getWorld().getName().equalsIgnoreCase(m)) {
+										e.getPlayer().sendMessage(PowerUtils.naoPodeMundo);
+										return;
+									}
+								}
 								e.getPlayer().setAllowFlight(true);
 								e.getPlayer().sendMessage(PowerUtils.voandoJetpack);
 								plist.add(e.getPlayer());

@@ -6,12 +6,16 @@ Jetpack:
     Jetpack: CHAINMAIL_CHESTPLATE
     # Combustível da Jetpack
     Fuel: COAL
+    # Mundos que não pode usar a Jetpack
+    MundosBloqueados:
+    - world_the_end
     
 Mensagens:
     VoandoJetpack: "&aVocê agora está voando!"
     ChaoJetpack: "&aVocê agora não está voando!"
     SemPerm: "&cSem &4Permissão&c!"
     SemCombustivel: "&cVocê não tem carvões para poder voar!"
+    NaoPodeMundo: "&cVocê não pode usar a Jetpack neste Mundo!"
     TirouJetpack: "&cVocê tirou a sua Jetpack, fazendo você cair no chão..."
     Woosh: "&6Woosh&e!"
     Combustivel: "&cSeu Combustível acabou!"

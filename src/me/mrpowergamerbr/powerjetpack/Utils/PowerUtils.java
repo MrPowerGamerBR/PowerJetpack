@@ -1,6 +1,7 @@
 package me.mrpowergamerbr.powerjetpack.Utils;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
@@ -21,6 +22,8 @@ public class PowerUtils {
 	public static String woosh = null;
 	public static String combustivel = null;
 	public static String semCombustivel = null;
+	public static String naoPodeMundo = null;
+	public static ArrayList<String> mundosBlock = new ArrayList<String>();
 	
 	public static Server getServer()
 	  {
@@ -59,7 +62,9 @@ public class PowerUtils {
 		  return getPlugin().getDataFolder();
 	  }
 	  
-	  public static void reloadMe()
+	// Unchecked = mundosBlock
+	@SuppressWarnings("unchecked")
+	public static void reloadMe()
 	  {
 		  reloadConfig();
 		  fuel = Material.valueOf(getConfig().getString("Jetpack.Fuel"));
@@ -70,7 +75,9 @@ public class PowerUtils {
 		  tirouJetpack = getConfig().getString("Mensagens.TirouJetpack").replace("&", "§");
 		  woosh = getConfig().getString("Mensagens.Woosh").replace("&", "§");
 		  combustivel = getConfig().getString("Mensagens.Combustivel").replace("&", "§");
+		  combustivel = getConfig().getString("Mensagens.NaoPodeMundo").replace("&", "§");
 		  semCombustivel = getConfig().getString("Mensagens.SemCombustivel").replace("&", "§");
+		  mundosBlock = (ArrayList<String>) getConfig().getList("Jetpack.MundosBloqueados");
 	  }
 	  
 	  public static void removeInventoryItems(PlayerInventory inv, Material type, int amount) {

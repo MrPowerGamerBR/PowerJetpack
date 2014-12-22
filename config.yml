@@ -1,0 +1,16 @@
+# PowerJetpack - Jetpacks!
+# Criado por MrPowerGamerBR - mrpowergamerbr.blogspot.com
+# SparklyPower: sparklypower.melhorserver.net
+Jetpack:
+    # Item da Jetpack, óbviamente precisa ser algum tipo de peitoral
+    Jetpack: CHAINMAIL_CHESTPLATE
+    # Combustível da Jetpack
+    Fuel: COAL
+    
+Mensagens:
+    VoandoJetpack: "&aVocê agora está voando!"
+    ChaoJetpack: "&aVocê agora não está voando!"
+    SemPerm: "&cSem &4Permissão&c!"
+    TirouJetpack: "&cVocê tirou a sua Jetpack, fazendo você cair no chão..."
+    Woosh: "&6Woosh&e!"
+    Combustivel: "&cSeu Combustível acabou!"

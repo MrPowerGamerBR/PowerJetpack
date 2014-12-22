@@ -32,9 +32,9 @@ public class Main extends JavaPlugin implements Listener {
 	}
 	
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		if (label.equalsIgnoreCase("powerbotreload"))
+		if (label.equalsIgnoreCase("powerjetpackreload"))
 	    {
-			if (sender.hasPermission("PowerBot.Reload")) {
+			if (sender.hasPermission("PowerJetpack.Reload")) {
 			PowerUtils.reloadMe();
 			sender.sendMessage("§aReload Concluído!");
 			return true;

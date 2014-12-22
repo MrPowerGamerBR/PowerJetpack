@@ -11,6 +11,7 @@ Mensagens:
     VoandoJetpack: "&aVocê agora está voando!"
     ChaoJetpack: "&aVocê agora não está voando!"
     SemPerm: "&cSem &4Permissão&c!"
+    SemCombustivel: "&cVocê não tem carvões para poder voar!"
     TirouJetpack: "&cVocê tirou a sua Jetpack, fazendo você cair no chão..."
     Woosh: "&6Woosh&e!"
     Combustivel: "&cSeu Combustível acabou!"

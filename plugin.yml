@@ -2,6 +2,6 @@ name: PowerJetpack
 main: me.mrpowergamerbr.powerjetpack.Main
 version: 1.0
 commands:
-   powerbotreload:
-      description: Reload do PowerBot
+   powerjetpackreload:
+      description: Reload do PowerJetpack
       usage: /<command>

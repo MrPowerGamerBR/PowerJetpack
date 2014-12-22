@@ -20,6 +20,7 @@ public class PowerUtils {
 	public static String tirouJetpack = null;
 	public static String woosh = null;
 	public static String combustivel = null;
+	public static String semCombustivel = null;
 	
 	public static Server getServer()
 	  {
@@ -69,6 +70,7 @@ public class PowerUtils {
 		  tirouJetpack = getConfig().getString("Mensagens.TirouJetpack").replace("&", "§");
 		  woosh = getConfig().getString("Mensagens.Woosh").replace("&", "§");
 		  combustivel = getConfig().getString("Mensagens.Combustivel").replace("&", "§");
+		  semCombustivel = getConfig().getString("Mensagens.SemCombustivel").replace("&", "§");
 	  }
 	  
 	  public static void removeInventoryItems(PlayerInventory inv, Material type, int amount) {

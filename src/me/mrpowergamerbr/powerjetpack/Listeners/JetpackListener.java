@@ -59,9 +59,15 @@ public class JetpackListener extends PowerUtils implements Listener {
 					// Verificar se o Player está no Chão
 					if (e.getPlayer().isOnGround()) {
 						if (!(e.getPlayer().getAllowFlight())) {
-							e.getPlayer().setAllowFlight(true);
-							e.getPlayer().sendMessage(PowerUtils.voandoJetpack);
-							plist.add(e.getPlayer());
+							if (e.getPlayer().getInventory().contains(PowerUtils.fuel)) {
+								e.getPlayer().setAllowFlight(true);
+								e.getPlayer().sendMessage(PowerUtils.voandoJetpack);
+								plist.add(e.getPlayer());
+							}
+							else {
+								e.getPlayer().sendMessage(PowerUtils.semCombustivel);
+								return;
+							}
 						}
 						else {
 							e.getPlayer().setAllowFlight(false);

@@ -2,6 +2,8 @@ package me.mrpowergamerbr.powerjetpack.Utils;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
@@ -23,7 +25,10 @@ public class PowerUtils {
 	public static String combustivel = null;
 	public static String semCombustivel = null;
 	public static String naoPodeMundo = null;
+	public static Integer fuelQuantity = 1;
+	public static Integer verifyTime = 3;
 	public static ArrayList<String> mundosBlock = new ArrayList<String>();
+	public static ArrayList<String> jetpackType = new ArrayList<String>();
 	
 	public static Server getServer()
 	  {
@@ -67,7 +72,7 @@ public class PowerUtils {
 	public static void reloadMe()
 	  {
 		  reloadConfig();
-		  fuel = Material.valueOf(getConfig().getString("Jetpack.Fuel"));
+		  //fuel = //Material.valueOf(getConfig().getString("Jetpack.Fuel"));
 		  jetpack = Material.valueOf(getConfig().getString("Jetpack.Jetpack"));
 		  voandoJetpack = getConfig().getString("Mensagens.VoandoJetpack").replace("&", "§");
 		  chaoJetpack = getConfig().getString("Mensagens.ChaoJetpack").replace("&", "§");
@@ -75,9 +80,19 @@ public class PowerUtils {
 		  tirouJetpack = getConfig().getString("Mensagens.TirouJetpack").replace("&", "§");
 		  woosh = getConfig().getString("Mensagens.Woosh").replace("&", "§");
 		  combustivel = getConfig().getString("Mensagens.Combustivel").replace("&", "§");
-		  combustivel = getConfig().getString("Mensagens.NaoPodeMundo").replace("&", "§");
+		  naoPodeMundo = getConfig().getString("Mensagens.NaoPodeMundo").replace("&", "§");
 		  semCombustivel = getConfig().getString("Mensagens.SemCombustivel").replace("&", "§");
 		  mundosBlock = (ArrayList<String>) getConfig().getList("Jetpack.MundosBloqueados");
+		  fuelQuantity = getConfig().getInt("Jetpack.Quantidade");
+		  verifyTime = getConfig().getInt("Jetpack.VerifyTime");
+		  jetpackType.clear();
+		  Set<String> j = getConfig().getConfigurationSection("Jetpack.Jetpacks").getKeys(false);
+		  for (String s : j) {
+			  jetpackType.add(getConfig().getString("Jetpack.Jetpacks." + s + ".Permissao") + ":" + getConfig().getString("Jetpack.Jetpacks." + s + ".Fuel") + ":" + getConfig().getString("Jetpack.Jetpacks." + s + ".Quantidade"));
+			  getLogger().log(Level.INFO, s);
+			  getLogger().log(Level.INFO, getConfig().getString("Jetpack.Jetpacks." + s + ".Permissao") + ":" + getConfig().getString("Jetpack.Jetpacks." + s + ".Fuel") + ":" + getConfig().getString("Jetpack.Jetpacks." + s + ".Quantidade"));
+		  }
+		  
 	  }
 	  
 	  public static void removeInventoryItems(PlayerInventory inv, Material type, int amount) {

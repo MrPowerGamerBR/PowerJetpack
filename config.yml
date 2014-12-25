@@ -2,10 +2,19 @@
 # Criado por MrPowerGamerBR - mrpowergamerbr.blogspot.com
 # SparklyPower: sparklypower.melhorserver.net
 Jetpack:
+    Jetpacks:
+        VIP:
+            Permissao: PowerJetpack.VIP
+            Fuel: DIRT
+            Quantidade: 1
+        Membros:
+            Permissao: PowerJetpack.Membro
+            Fuel: COAL
+            Quantidade: 1
     # Item da Jetpack, óbviamente precisa ser algum tipo de peitoral
     Jetpack: CHAINMAIL_CHESTPLATE
-    # Combustível da Jetpack
-    Fuel: COAL
+    # Tempo de Verificação para remover o combustível do Player (Recomendado: 3)
+    VerifyTime: 3
     # Mundos que não pode usar a Jetpack
     MundosBloqueados:
     - world_the_end

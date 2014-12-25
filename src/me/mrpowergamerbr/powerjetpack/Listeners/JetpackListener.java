@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import me.mrpowergamerbr.powerjetpack.Utils.PowerUtils;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -15,9 +16,8 @@ public class JetpackListener extends PowerUtils implements Listener {
 	static ArrayList<Player> plist = new ArrayList<Player>();
 	
 	public static void tirarCoisas() {
-		getServer().getScheduler().runTaskLater(getPlugin(), new Runnable() {
+		getServer().getScheduler().runTaskTimer(getPlugin(), new Runnable() {
 			// plz, why deprecation ;-; i cri evry tmy
-			@SuppressWarnings("deprecation")
 			public void run() {
 				for (Player p : Bukkit.getOnlinePlayers()) {
 					if (plist.contains(p)) {
@@ -28,29 +28,36 @@ public class JetpackListener extends PowerUtils implements Listener {
 							p.setAllowFlight(false);
 						}
 						else {
-							if (p.getInventory().contains(PowerUtils.fuel)) {
-								for (String m : PowerUtils.mundosBlock) {
-									if (p.getWorld().getName().equalsIgnoreCase(m)) {
-										p.sendMessage(PowerUtils.naoPodeMundo);
+							for (String j : PowerUtils.jetpackType) {
+								String[] split = j.split(":");
+								if (p.hasPermission(split[0])) {
+									Material type = Material.valueOf(split[1]);
+									if (p.getInventory().contains(type, Integer.parseInt(split[2]))) {
+										for (String m : PowerUtils.mundosBlock) {
+											if (p.getWorld().getName().equalsIgnoreCase(m)) {
+												p.sendMessage(PowerUtils.naoPodeMundo);
+												plist.remove(p);
+												p.setAllowFlight(false);
+												return;
+											}
+										}
+										p.sendMessage(PowerUtils.woosh);
+										PowerUtils.removeInventoryItems(p.getInventory(), type, Integer.parseInt(split[2]));
+										return;
+									}
+									else {
+										p.sendMessage(PowerUtils.combustivel);
 										plist.remove(p);
 										p.setAllowFlight(false);
 										return;
 									}
 								}
-								p.sendMessage(PowerUtils.woosh);
-								PowerUtils.removeInventoryItems(p.getInventory(), PowerUtils.fuel, 1);
-							}
-							else {
-								p.sendMessage(PowerUtils.combustivel);
-								plist.remove(p);
-								p.setAllowFlight(false);
 							}
 						}
 					}
 				}
-				tirarCoisas();
 			}	
-		}, 60L);
+		}, PowerUtils.verifyTime * 20L, PowerUtils.verifyTime * 20L);
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -66,33 +73,43 @@ public class JetpackListener extends PowerUtils implements Listener {
 				if (e.getPlayer().hasPermission("PowerJetpack.UsarJetpack")) {
 					// Verificar se o Player está no Chão
 					if (e.getPlayer().isOnGround()) {
-						if (!(e.getPlayer().getAllowFlight())) {
-							if (e.getPlayer().getInventory().contains(PowerUtils.fuel)) {
-								for (String m : PowerUtils.mundosBlock) {
-									if (e.getPlayer().getWorld().getName().equalsIgnoreCase(m)) {
-										e.getPlayer().sendMessage(PowerUtils.naoPodeMundo);
+						for (String j : PowerUtils.jetpackType) {
+							String[] split = j.split(":");
+							if (e.getPlayer().hasPermission(split[0])) {
+								Material type = Material.valueOf(split[1]);
+								if (!(e.getPlayer().getAllowFlight())) {
+									if (e.getPlayer().getInventory().contains(type, Integer.parseInt(split[2]))) {
+										for (String m : PowerUtils.mundosBlock) {
+											if (e.getPlayer().getWorld().getName().equalsIgnoreCase(m)) {
+												e.getPlayer().sendMessage(PowerUtils.naoPodeMundo);
+												return;
+											}
+										}
+										e.getPlayer().setAllowFlight(true);
+										e.getPlayer().sendMessage(PowerUtils.voandoJetpack);
+										plist.add(e.getPlayer());
+										return;
+									}
+									else {
+										e.getPlayer().sendMessage(PowerUtils.semCombustivel);
 										return;
 									}
 								}
-								e.getPlayer().setAllowFlight(true);
-								e.getPlayer().sendMessage(PowerUtils.voandoJetpack);
-								plist.add(e.getPlayer());
-							}
-							else {
-								e.getPlayer().sendMessage(PowerUtils.semCombustivel);
-								return;
+								else {
+									e.getPlayer().setAllowFlight(false);
+									e.getPlayer().sendMessage(PowerUtils.chaoJetpack);
+									plist.remove(e.getPlayer());
+									return;
+								}
 							}
 						}
-						else {
-							e.getPlayer().setAllowFlight(false);
-							e.getPlayer().sendMessage(PowerUtils.chaoJetpack);
-							plist.remove(e.getPlayer());
-						}
+						e.getPlayer().sendMessage(PowerUtils.semPerm);
+						return;
 					}
+					return;
 				}
-				else {
-					e.getPlayer().sendMessage(PowerUtils.semPerm);
-				}
+				e.getPlayer().sendMessage(PowerUtils.semPerm);
+				return;
 			}
 		}
 	}

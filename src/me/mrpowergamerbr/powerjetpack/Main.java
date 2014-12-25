@@ -12,11 +12,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class Main extends JavaPlugin implements Listener {
 	
-	//public String atomtag = null;
-	public static String lastrss = null;
-	public static String novotopico = null;
-	public static String prefixo = null;
-	
 	@Override
 	public void onEnable() {
 		getLogger().log(Level.INFO, "PowerJetpack Ativado!");

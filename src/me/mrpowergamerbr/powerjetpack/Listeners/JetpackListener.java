@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 
 public class JetpackListener extends PowerUtils implements Listener {
@@ -18,7 +19,9 @@ public class JetpackListener extends PowerUtils implements Listener {
 	public static void tirarCoisas() {
 		getServer().getScheduler().runTaskTimer(getPlugin(), new Runnable() {
 			// plz, why deprecation ;-; i cri evry tmy
+			@SuppressWarnings("deprecation")
 			public void run() {
+				player:
 				for (Player p : Bukkit.getOnlinePlayers()) {
 					if (plist.contains(p)) {
 						// Para os Safados que tiram a Jetpack durante o uso...
@@ -28,36 +31,55 @@ public class JetpackListener extends PowerUtils implements Listener {
 							p.setAllowFlight(false);
 						}
 						else {
-							for (String j : PowerUtils.jetpackType) {
-								String[] split = j.split(":");
-								if (p.hasPermission(split[0])) {
-									Material type = Material.valueOf(split[1]);
-									if (p.getInventory().contains(type, Integer.parseInt(split[2]))) {
-										for (String m : PowerUtils.mundosBlock) {
-											if (p.getWorld().getName().equalsIgnoreCase(m)) {
-												p.sendMessage(PowerUtils.naoPodeMundo);
+							if (!(p.isOnGround())) {
+									for (String j : PowerUtils.jetpackType) {
+										String[] split = j.split(":");
+										if (p.hasPermission(split[0])) {
+											Material type = Material.valueOf(split[1]);
+											if (p.getInventory().contains(type, Integer.parseInt(split[2]))) {
+												for (String m : PowerUtils.mundosBlock) {
+													if (p.getWorld().getName().equalsIgnoreCase(m)) {
+														p.sendMessage(PowerUtils.naoPodeMundo);
+														plist.remove(p);
+														p.setAllowFlight(false);
+														continue player;
+													}
+												}
+												p.sendMessage(PowerUtils.woosh);
+												PowerUtils.removeInventoryItems(p.getInventory(), type, Integer.parseInt(split[2]));
+												continue player;
+											}
+											else {
+												p.sendMessage(PowerUtils.combustivel);
 												plist.remove(p);
 												p.setAllowFlight(false);
-												return;
+												continue player;
 											}
 										}
-										p.sendMessage(PowerUtils.woosh);
-										PowerUtils.removeInventoryItems(p.getInventory(), type, Integer.parseInt(split[2]));
-										return;
-									}
-									else {
-										p.sendMessage(PowerUtils.combustivel);
-										plist.remove(p);
-										p.setAllowFlight(false);
-										return;
 									}
 								}
 							}
 						}
 					}
-				}
-			}	
+				}	
 		}, PowerUtils.verifyTime * 20L, PowerUtils.verifyTime * 20L);
+	}
+	
+	@EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true)
+	private void onSHIFT(final InventoryClickEvent e) {
+		getServer().getScheduler().runTaskLater(getPlugin(), new Runnable() {
+			@Override
+			public void run() {
+				if (plist.contains(e.getWhoClicked())) {
+					if (e.getWhoClicked().getInventory().getChestplate() == null || e.getWhoClicked().getInventory().getChestplate().getType() != Material.CHAINMAIL_CHESTPLATE) {
+						Player p = (Player) e.getWhoClicked();
+						p.sendMessage(PowerUtils.tirouJetpack);
+						plist.remove(e.getWhoClicked());
+						p.setAllowFlight(false);
+					}
+				}
+			}
+		}, 1L);
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -70,10 +92,10 @@ public class JetpackListener extends PowerUtils implements Listener {
 			// Só verifique a Jetpack se o Player está vestindo uma Jetpack (Default: Peitoral de Chain)
 			if (e.getPlayer().getEquipment().getChestplate() != null && e.getPlayer().getEquipment().getChestplate().getType() == PowerUtils.jetpack) {
 				// Permissões Marotas
-				if (e.getPlayer().hasPermission("PowerJetpack.UsarJetpack")) {
 					// Verificar se o Player está no Chão
 					if (e.getPlayer().isOnGround()) {
 						for (String j : PowerUtils.jetpackType) {
+							e.getPlayer().sendMessage("verificando as parada doida");
 							String[] split = j.split(":");
 							if (e.getPlayer().hasPermission(split[0])) {
 								Material type = Material.valueOf(split[1]);
@@ -107,9 +129,6 @@ public class JetpackListener extends PowerUtils implements Listener {
 						return;
 					}
 					return;
-				}
-				e.getPlayer().sendMessage(PowerUtils.semPerm);
-				return;
 			}
 		}
 	}

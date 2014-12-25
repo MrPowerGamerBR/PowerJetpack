@@ -23,7 +23,7 @@ public class Main extends JavaPlugin implements Listener {
 	
 	@Override
 	public void onDisable() {
-		
+		PowerUtils.jetpackType.clear();
 	}
 	
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
